@@ -4,11 +4,14 @@ from machine import Pin, SPI
 from time import sleep
 import struct
 
-#spi = SPI(baudrate=9600, polarity=1, phase=0, sck=Pin(19), mosi=Pin(23), miso=Pin(21))
+CS_pin = Pin(5, Pin.OUT) # create output pin for CS
 
-CS_pin = Pin(5, Pin.OUT) # create output pin 27 for CS
-spi = SPI(-1, baudrate=9600, polarity=0, phase=0, bits=8, sck=Pin(18), mosi=Pin(19), miso=Pin(22))
-#spi.init(baudrate=9600) # set the baudrate
+# Software SPI used.
+# MISO pin is not used for the MCP-4010 dig pot, so just set it to whatever.
+spi = SPI(-1, baudrate=9600, polarity=0, phase=0, bits=8, sck=Pin(18), mosi=Pin(19), miso=Pin(22)) # Software SPI used.
+
+# The first byte is the command byte, for writing to the digital pot. The second is a 0-255 byte, setting the wiper position.
+# CS needs to be in low when sending.
 
 def dig_pot(value):
     CS_pin.off()
