@@ -2,7 +2,6 @@
 
 from machine import Pin, SPI
 from time import sleep
-import struct
 
 CS_pin = Pin(5, Pin.OUT) # create output pin for CS
 
