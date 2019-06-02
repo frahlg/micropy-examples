@@ -16,12 +16,12 @@ class HCSR04:
         """
         trigger_pin: Output pin to send pulses
         echo_pin: Readonly pin to measure the distance. The pin should be protected with 1k resistor
-        echo_timeout_us: Timeout in microseconds to listen to echo pin. 
+        echo_timeout_us: Timeout in microseconds to listen to echo pin.
         By default is based in sensor limit range (4m)
         """
         self.echo_timeout_us = echo_timeout_us
         # Init trigger pin (out)
-        self.trigger = Pin(trigger_pin, mode=Pin.OUT, pull=None)
+        self.trigger = Pin(trigger_pin, mode=Pin.OUT)
         self.trigger.value(0)
 
         # Init echo pin (in)
@@ -52,11 +52,11 @@ class HCSR04:
         """
         pulse_time = self._send_pulse_and_wait()
 
-        # To calculate the distance we get the pulse_time and divide it by 2 
+        # To calculate the distance we get the pulse_time and divide it by 2
         # (the pulse walk the distance twice) and by 29.1 becasue
         # the sound speed on air (343.2 m/s), that It's equivalent to
         # 0.34320 mm/us that is 1mm each 2.91us
-        # pulse_time // 2 // 2.91 -> pulse_time // 5.82 -> pulse_time * 100 // 582 
+        # pulse_time // 2 // 2.91 -> pulse_time // 5.82 -> pulse_time * 100 // 582
         mm = pulse_time * 100 // 582
         return mm
 
@@ -67,7 +67,7 @@ class HCSR04:
         """
         pulse_time = self._send_pulse_and_wait()
 
-        # To calculate the distance we get the pulse_time and divide it by 2 
+        # To calculate the distance we get the pulse_time and divide it by 2
         # (the pulse walk the distance twice) and by 29.1 becasue
         # the sound speed on air (343.2 m/s), that It's equivalent to
         # 0.034320 cm/us that is 1cm each 29.1us
